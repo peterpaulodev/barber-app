@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
+import { LogInIcon, LogOutIcon } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { Avatar, AvatarImage } from "./ui/avatar";
+import MenuSheet from "./menu-sheet";
 
 const Header = () => {
   const { data: session } = authClient.useSession();
@@ -44,9 +45,7 @@ const Header = () => {
           </Button>
         )}
 
-        <Button variant="outline" size="icon">
-          <MenuIcon />
-        </Button>
+        <MenuSheet />
       </div>
     </header>
   );
