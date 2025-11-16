@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
 import { Separator } from "./ui/separator";
 import { createBooking } from "@/app/_actions/create-booking";
+import { toast } from "sonner";
 
 interface BookingSheetProps {
   open: boolean;
@@ -45,18 +46,24 @@ const BookingSheet = ({
 
   const isConfirmButtonEnabled = selectedDate && selectedTime;
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!selectedDate || !selectedTime) return;
 
-    // TODO: Call server action to create booking
-    createBooking({
+    const result = await createBooking({
       serviceId: service.id,
       barbershopId: barbershop.id,
       date: selectedDate,
       time: selectedTime,
     });
 
-    onOpenChange(false);
+    if (result.success) {
+      toast.success("Reserva confirmada com sucesso!");
+      setSelectedDate(undefined);
+      setSelectedTime(undefined);
+      onOpenChange(false);
+    } else {
+      toast.error(result.error || "Erro ao confirmar reserva");
+    }
   };
 
   return (
