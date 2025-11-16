@@ -1,13 +1,19 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
-import { BarbershopService } from "@/app/generated/prisma/client";
-import { Separator } from "./ui/separator";
+import { BarbershopService, Barbershop } from "@/app/generated/prisma/client";
 import { Button } from "./ui/button";
+import BookingSheet from "./booking-sheet";
 
 interface ServiceItemProps {
   service: BarbershopService;
+  barbershop: Barbershop;
 }
 
-const ServiceItem = ({ service }: ServiceItemProps) => {
+const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
+  const [bookingSheetOpen, setBookingSheetOpen] = useState(false);
+
   const priceInReais = (service.priceInCents / 100).toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL",
@@ -43,13 +49,19 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
             <p className="text-foreground text-sm font-semibold">
               {priceInReais}
             </p>
-            <Button size="sm" className="shrink-0">
+            <Button size="sm" className="shrink-0" onClick={() => setBookingSheetOpen(true)}>
               Reservar
             </Button>
           </div>
         </div>
       </div>
-      <Separator />
+
+      <BookingSheet
+        open={bookingSheetOpen}
+        onOpenChange={setBookingSheetOpen}
+        service={service}
+        barbershop={barbershop}
+      />
     </>
   );
 };

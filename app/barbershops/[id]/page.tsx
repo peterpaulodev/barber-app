@@ -109,7 +109,7 @@ const BarbershopDetailPage = async ({ params }: BarbershopDetailPageProps) => {
             <Card>
               <div className="px-6">
                 {barbershop.services.map((service) => (
-                  <ServiceItem key={service.id} service={service} />
+                  <ServiceItem key={service.id} service={service} barbershop={barbershop} />
                 ))}
               </div>
             </Card>
